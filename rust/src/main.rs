@@ -115,6 +115,15 @@ fn handle_args(app: &AppHandle, args: &[String]) {
 
 fn main() {
     let config = config::load();
+    // WebKitGTK's DMA-BUF renderer fails on many NVIDIA, VM and restricted
+    // /dev/dri setups ("DRM_IOCTL_MODE_CREATE_DUMB failed"), leaving a blank
+    // window. Fall back to the shared-memory path unless the user forces the GPU
+    // on or set the variable themselves. Must run before GTK starts threads.
+    #[cfg(target_os = "linux")]
+    if config.gpu != config::GpuPolicy::Always && std::env::var_os("WEBKIT_DISABLE_DMABUF_RENDERER").is_none() {
+        std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
+    }
+
     let state = AppState {
         config: Mutex::new(config.clone()),
         launched: config,
