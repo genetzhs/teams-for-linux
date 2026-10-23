@@ -216,3 +216,57 @@ describe('CommandLineManager disable-features defaults', () => {
     assert.ok(warnings.every((warning) => !warning.includes('UsePortalAccentColor')));
   });
 });
+
+describe('CommandLineManager Wayland GPU default', () => {
+  const originalSession = process.env.XDG_SESSION_TYPE;
+
+  afterEach(() => {
+    if (originalSession === undefined) delete process.env.XDG_SESSION_TYPE;
+    else process.env.XDG_SESSION_TYPE = originalSession;
+    if (originalElectron) require.cache[electronPath] = originalElectron;
+    else delete require.cache[electronPath];
+    Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
+    delete require.cache[commandLinePath];
+  });
+
+  // Runs addSwitchesAfterConfigLoad on a Wayland session whose ozone platform
+  // resolved to `ozonePlatform`, returning the switches and the mutated config.
+  function onWayland(ozonePlatform, config) {
+    const switches = [];
+    const app = {
+      commandLine: {
+        appendSwitch: (name, value) => switches.push([name, value]),
+        hasSwitch: () => false,
+        getSwitchValue: (name) => (name === 'ozone-platform' ? ozonePlatform : ''),
+      },
+      setName: () => {},
+      setDesktopName: () => {},
+      disableHardwareAcceleration: () => {},
+    };
+    require.cache[electronPath] = { id: electronPath, filename: electronPath, loaded: true, exports: { app } };
+    Object.defineProperty(process, 'platform', { value: 'linux', configurable: true });
+    process.env.XDG_SESSION_TYPE = 'wayland';
+    delete require.cache[commandLinePath];
+    require(commandLinePath).addSwitchesAfterConfigLoad(config);
+    return { switches, config };
+  }
+
+  it('keeps the GPU on under XWayland by default', () => {
+    const { switches, config } = onWayland('x11', { disableGpu: false });
+    assert.strictEqual(config.disableGpu, false);
+    assert.ok(!hasSwitch(switches, 'disable-gpu'));
+    // Screen sharing still gets the fake media UI flag (#2217).
+    assert.ok(hasSwitch(switches, 'use-fake-ui-for-media-stream'));
+  });
+
+  it('still disables the GPU on native Wayland by default', () => {
+    const { switches, config } = onWayland('wayland', { disableGpu: false });
+    assert.strictEqual(config.disableGpu, true);
+    assert.ok(hasSwitch(switches, 'disable-gpu'));
+  });
+
+  it('respects an explicit disableGpu under XWayland', () => {
+    const { switches } = onWayland('x11', { disableGpu: true, disableGpuExplicitlySet: true });
+    assert.ok(hasSwitch(switches, 'disable-gpu'));
+  });
+});

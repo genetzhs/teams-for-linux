@@ -1142,13 +1142,13 @@ module.exports = {
         default: {
           xwaylandOptimizations: false,
         },
-        describe: "Wayland display server configuration. xwaylandOptimizations: keeps GPU enabled and skips fake media UI flag under XWayland (may fix camera issues but can break screen sharing)",
+        describe: "Wayland display server configuration. xwaylandOptimizations: skips the fake media UI flag under XWayland (may fix camera issues but can break screen sharing)",
         type: "object",
         fields: {
           "xwaylandOptimizations": {
             type: "boolean",
             describe:
-              "Keep GPU enabled and skip the fake media UI flag under XWayland; may fix camera issues but can break screen sharing.",
+              "Skip the fake media UI flag under XWayland; may fix camera issues but can break screen sharing. The GPU stays enabled under XWayland either way.",
           },
         },
         applyMode: "restart",

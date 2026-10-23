@@ -1284,14 +1284,14 @@
       "default": {
         "xwaylandOptimizations": false
       },
-      "description": "Wayland display server configuration. xwaylandOptimizations: keeps GPU enabled and skips fake media UI flag under XWayland (may fix camera issues but can break screen sharing)",
+      "description": "Wayland display server configuration. xwaylandOptimizations: skips the fake media UI flag under XWayland (may fix camera issues but can break screen sharing)",
       "applyMode": "restart",
       "fields": [
         {
           "path": "xwaylandOptimizations",
           "type": "boolean",
           "default": false,
-          "description": "Keep GPU enabled and skip the fake media UI flag under XWayland; may fix camera issues but can break screen sharing."
+          "description": "Skip the fake media UI flag under XWayland; may fix camera issues but can break screen sharing. The GPU stays enabled under XWayland either way."
         }
       ]
     },

@@ -901,7 +901,7 @@ Wayland display server settings are organized under the `wayland` configuration 
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `wayland.xwaylandOptimizations` | `boolean` | `false` | Enable XWayland-specific optimizations: keeps GPU enabled and skips fake media UI flag under XWayland. May fix camera issues but can break screen sharing on some systems |
+| `wayland.xwaylandOptimizations` | `boolean` | `false` | Enable XWayland-specific optimizations: skips the fake media UI flag under XWayland. May fix camera issues but can break screen sharing on some systems |
 
 ### Cache & Storage
 
@@ -938,7 +938,7 @@ Wayland display server settings are organized under the `wayland` configuration 
 | `disableTimestampOnCopy` | `boolean` | `false` | Deprecated, use `platform.disableTimestampOnCopy` |
 
 :::note Wayland GPU Handling
-When running under Wayland, GPU acceleration is **automatically disabled by default** to prevent blank window issues. To enable GPU acceleration on Wayland, you can explicitly override this behavior using either:
+When running under native Wayland (`--ozone-platform=wayland`), GPU acceleration is **automatically disabled by default** to prevent blank window issues. Under XWayland, the shipped default on Wayland sessions, the GPU stays enabled, since software compositing there made the interface sluggish. To enable GPU acceleration on native Wayland, you can explicitly override this behavior using either:
 
 **Configuration file** (`config.json`):
 ```json
@@ -954,11 +954,11 @@ When running under Wayland, GPU acceleration is **automatically disabled by defa
 teams-for-linux --disableGpu=false
 ```
 
-If you don't set this option at all (via config file or CLI), GPU will be disabled automatically on Wayland. This smart default ensures the app works out of the box while allowing power users to optimize performance.
+If you don't set this option at all (via config file or CLI), GPU will be disabled automatically on native Wayland. If you see a blank or flickering window under XWayland, set `performance.disableGpu` to `true`.
 :::
 
 :::note XWayland Optimizations
-When running under XWayland (Wayland session with `--ozone-platform=x11`), the app treats it the same as native Wayland by default. If you experience **camera issues** under XWayland (e.g., camera crash on second launch), you can enable XWayland-specific optimizations:
+When running under XWayland (Wayland session with `--ozone-platform=x11`), the app keeps the GPU enabled and adds the `--use-fake-ui-for-media-stream` flag needed for screen sharing. If you experience **camera issues** under XWayland (e.g., camera crash on second launch), you can enable XWayland-specific optimizations:
 
 ```json
 {
@@ -968,9 +968,7 @@ When running under XWayland (Wayland session with `--ozone-platform=x11`), the a
 }
 ```
 
-When enabled, this flag:
-- Keeps GPU acceleration enabled under XWayland (instead of auto-disabling)
-- Skips the `--use-fake-ui-for-media-stream` Chromium flag under XWayland
+When enabled, this flag skips the `--use-fake-ui-for-media-stream` Chromium flag under XWayland.
 
 > **Warning:** Enabling this may break screen sharing on XWayland for some systems. Only enable it if you are experiencing camera problems.
 

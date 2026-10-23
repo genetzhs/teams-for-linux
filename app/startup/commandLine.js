@@ -203,11 +203,13 @@ class CommandLineManager {
     }
 
     // 2. GPU handling: respect explicit user setting, otherwise auto-configure.
-    //    Native Wayland auto-disables GPU to prevent blank windows.
-    //    XWayland with optimizations keeps GPU enabled for camera support (#2169).
+    //    Native Wayland auto-disables GPU to prevent blank windows. XWayland
+    //    (the shipped --ozone-platform=x11 default, ADR-031) renders through
+    //    the X11 path where that bug does not apply, so it keeps the GPU:
+    //    software compositing there made the whole UI sluggish.
     if (config.disableGpuExplicitlySet) {
       console.info(`[Wayland] Respecting user's disableGpu setting: ${config.disableGpu}`);
-    } else if (xwaylandOptimizations) {
+    } else if (isXWayland) {
       console.info("[Wayland] XWayland mode: keeping GPU enabled");
     } else {
       console.info("[Wayland] Disabling GPU composition (default)");
