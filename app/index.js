@@ -31,6 +31,7 @@ const ScreenSharingService = require("./screenSharing/service");
 const PartitionsManager = require("./partitions/manager");
 const ProfilesManager = require("./profilesManager");
 const ProfileViewManager = require("./mainAppWindow/profileViewManager");
+const MailViewManager = require("./mailView");
 const { PIP_FRAME_NAME } = require("./mainAppWindow/documentPictureInPicture");
 const TeamsControlService = require("./control/teamsControlService");
 const TeamsStateService = require("./control/teamsStateService");
@@ -181,6 +182,8 @@ const profilesManager = new ProfilesManager(appConfig.settingsStore);
 // multi-account flag is on; the manager is wired to the main window
 // after `mainAppWindow.onAppReady` resolves.
 let profileViewManager = null;
+// Outlook Mail overlay (app/mailView); null when mail.enabled is false.
+let mailViewManager = null;
 let dbusControlService = null;
 
 // ADR-020 Phase 2 unread aggregation; null with the flag off, where the
@@ -793,6 +796,8 @@ async function handleAppReady() {
       }
     }
 
+    initializeMailView();
+
     if (process.platform === "linux" && config.auth?.webauthn?.enabled) {
       await WebAuthn.initialize(mainAppWindow.getWindow(), config);
     }
@@ -874,7 +879,36 @@ async function setBadgeCountHandler(event, count) {
   applyBadgeCount(count);
 }
 
+// Created after ProfileViewManager so its switcher starts above the profile
+// pill; stacked 48px higher when that pill exists.
+function initializeMailView() {
+  const mainWindow = mainAppWindow.getWindow();
+  if (!config.mail?.enabled || !mainWindow) return;
+  mailViewManager = new MailViewManager(mainWindow, config, {
+    focusTeams: profileViewManager
+      ? () => profileViewManager.getActiveWebContents()?.focus()
+      : undefined,
+    switcherOffset: profileViewManager ? 48 : 0,
+  });
+  mailViewManager.initialize();
+  mainAppWindow.setMailViewManager(mailViewManager);
+  // A call or a deep link (msteams:, meeting link from another app) lands in
+  // Teams, which must not stay hidden under Mail.
+  app.on("teams-call-connected", () => mailViewManager.hide());
+  app.on("second-instance", () => mailViewManager.hide());
+  if (profileViewManager) {
+    // Picking a profile means "show me Teams"; showing a profile view also
+    // raises it over the switcher, so re-raise.
+    profilesManager.on("switch", () => {
+      mailViewManager.hide();
+      mailViewManager.raiseSwitcher();
+    });
+    profilesManager.on("add", () => mailViewManager.raiseSwitcher());
+  }
+}
+
 function applyBadgeCount(count) {
+  mailViewManager?.setTeamsUnread(count);
   if (!config.disableBadgeCount) {
     app.setBadgeCount(count);
     // Electron's own Linux badge path loads libunity at runtime, which none

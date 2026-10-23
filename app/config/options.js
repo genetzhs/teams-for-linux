@@ -1004,6 +1004,33 @@ module.exports = {
         },
         applyMode: "restart",
       },
+      mail: {
+        default: {
+          enabled: true,
+          url: "https://outlook.office.com/mail/",
+          showSwitcher: true,
+        },
+        describe: "Outlook Mail inside the main window, switchable with Teams. Loaded only the first time it is opened",
+        type: "object",
+        fields: {
+          "enabled": {
+            type: "boolean",
+            describe:
+              "Offer Outlook Mail in the main window (menu, tray, Ctrl+Alt+M and the switcher button).",
+          },
+          "url": {
+            type: "string",
+            describe:
+              "Address of Outlook on the web. Use https://outlook.live.com/mail/ for a personal Outlook.com account.",
+          },
+          "showSwitcher": {
+            type: "boolean",
+            describe:
+              "Show the floating Teams/Mail switcher button in the bottom-left corner.",
+          },
+        },
+        applyMode: "restart",
+      },
       graphApi: {
         default: {
           enabled: false,

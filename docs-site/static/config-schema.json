@@ -1,7 +1,7 @@
 {
   "$generatedBy": "scripts/generateConfigDocs.js",
   "source": "app/config/options.js",
-  "optionCount": 85,
+  "optionCount": 86,
   "options": [
     {
       "name": "dbusControl",
@@ -1119,6 +1119,37 @@
           "path": "shortcut",
           "type": "string",
           "description": "Keyboard shortcut to toggle the Quick Chat modal (e.g. CommandOrControl+Alt+Q); unset by default."
+        }
+      ]
+    },
+    {
+      "name": "mail",
+      "type": "object",
+      "default": {
+        "enabled": true,
+        "url": "https://outlook.office.com/mail/",
+        "showSwitcher": true
+      },
+      "description": "Outlook Mail inside the main window, switchable with Teams. Loaded only the first time it is opened",
+      "applyMode": "restart",
+      "fields": [
+        {
+          "path": "enabled",
+          "type": "boolean",
+          "default": true,
+          "description": "Offer Outlook Mail in the main window (menu, tray, Ctrl+Alt+M and the switcher button)."
+        },
+        {
+          "path": "url",
+          "type": "string",
+          "default": "https://outlook.office.com/mail/",
+          "description": "Address of Outlook on the web. Use https://outlook.live.com/mail/ for a personal Outlook.com account."
+        },
+        {
+          "path": "showSwitcher",
+          "type": "boolean",
+          "default": true,
+          "description": "Show the floating Teams/Mail switcher button in the bottom-left corner."
         }
       ]
     },

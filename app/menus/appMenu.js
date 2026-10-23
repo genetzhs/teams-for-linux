@@ -19,6 +19,15 @@ exports = module.exports = (Menus) => ({
       label: "Return to Teams",
       click: () => Menus.returnToTeams(),
     },
+    ...(Menus.configGroup.startupConfig.mail?.enabled
+      ? [
+          {
+            label: "Mail",
+            accelerator: "ctrl+alt+M",
+            click: () => Menus.toggleMail(),
+          },
+        ]
+      : []),
     ...(Menus.configGroup.startupConfig.quickChat?.enabled
       ? [
           {

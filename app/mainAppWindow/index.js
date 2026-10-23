@@ -933,6 +933,12 @@ exports.setQuickChatManager = function (quickChatManager) {
   }
 };
 
+exports.setMailViewManager = function (mailViewManager) {
+  if (menus) {
+    menus.setMailViewManager(mailViewManager);
+  }
+};
+
 exports.onAppSecondInstance = function onAppSecondInstance(event, args) {
   console.debug("second-instance started");
   if (window && !window.isDestroyed()) {

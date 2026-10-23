@@ -717,6 +717,7 @@ class Menus {
         : parsed.href;
       const script = `window.location.assign(${JSON.stringify(target)});`;
       this.window.show();
+      this.mailViewManager?.hide();
       this.window.focus();
       await this.window.webContents.executeJavaScript(script, true);
     } catch {
@@ -733,6 +734,7 @@ class Menus {
       : fallbackUrl;
     try {
       this.window.show();
+      this.mailViewManager?.hide();
       this.window.focus();
       await this.window.webContents.loadURL(target, {
         userAgent: this.configGroup.startupConfig.chromeUserAgent,
@@ -777,6 +779,16 @@ class Menus {
 
   setQuickChatManager(quickChatManager) {
     this.quickChatManager = quickChatManager;
+  }
+
+  setMailViewManager(mailViewManager) {
+    this.mailViewManager = mailViewManager;
+  }
+
+  toggleMail() {
+    if (!this.mailViewManager?.enabled) return;
+    this.window.show();
+    this.mailViewManager.toggle();
   }
 
   showQuickChat() {

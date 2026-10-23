@@ -878,6 +878,16 @@ All topics except `incoming-call/caller` use retained messages, ensuring subscri
 > [!NOTE]
 > Quick Chat requires Graph API to be enabled (`graphApi.enabled: true`) for contact search and inline messaging. The modal allows you to search for contacts, click to compose a message, and send it directly without leaving your current context. The keyboard shortcut uses Electron accelerator format. No shortcut is registered by default; you must provide one explicitly.
 
+### Mail
+
+Outlook on the web inside the main window. Switch with the button in the bottom-left corner, `Ctrl+Alt+M`, or **Mail** in the menu and tray. Mail is only loaded the first time you open it, uses the same sign-in as Teams, and opens links from emails in your browser.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `mail.enabled` | `boolean` | `true` | Offer Outlook Mail in the main window |
+| `mail.url` | `string` | `"https://outlook.office.com/mail/"` | Outlook address; use `https://outlook.live.com/mail/` for a personal Outlook.com account |
+| `mail.showSwitcher` | `boolean` | `true` | Show the floating Teams/Mail switcher button |
+
 ### Performance & Hardware
 
 | Option | Type | Default | Description |

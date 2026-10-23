@@ -171,6 +171,12 @@ const allowedChannels = new Set([
   'profile-switcher-set-expanded',
   'profile-switcher-state',
 
+  // Teams/Mail switcher button (app/mailView). toggle comes from the button's
+  // own sandboxed view (sender-checked in MailViewManager); state is the
+  // main → renderer push, listed for an authoritative allowlist.
+  'mail-switcher-toggle',
+  'mail-switcher-state',
+
   // Aggregate tray badge (ADR-020 Phase 2). The renderer's reply to main's
   // render-aggregate-badge request: the summed unread count composited onto
   // the tray icon by trayIconRenderer's canvas path. Matched by requestId
