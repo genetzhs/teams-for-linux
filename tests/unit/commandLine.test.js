@@ -301,8 +301,15 @@ describe('CommandLineManager Linux performance', () => {
     assert.ok(!hasSwitch(switches, 'ignore-gpu-blocklist'));
   });
 
-  it('forces reduced motion only when asked', () => {
+  it('forces reduced motion only when the option is on', () => {
     assert.ok(!hasSwitch(appendedSwitches({}, 'linux', 'x64'), 'force-prefers-reduced-motion'));
     assert.ok(hasSwitch(appendedSwitches({ media: { reduceMotion: true } }, 'linux', 'x64'), 'force-prefers-reduced-motion'));
+  });
+});
+
+describe('media.reduceMotion default', () => {
+  it('is on by default', () => {
+    const options = require('../../app/config/options');
+    assert.strictEqual(options.media.default.reduceMotion, true);
   });
 });

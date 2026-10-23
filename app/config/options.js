@@ -775,12 +775,12 @@ module.exports = {
           showStatusOnDockIcon: false,
           macPerformanceMode: true,
           linuxPerformanceMode: true,
-          reduceMotion: false,
+          reduceMotion: true,
           preventDeviceSwitching: false,
           documentPictureInPicture: true,
         },
         describe:
-          "Media settings for microphone, camera, and video. showStatusOnDockIcon: overlay the user presence status on the app icon (the Dock on macOS, the tray icon elsewhere). macPerformanceMode: on macOS, force-enable native hardware/rendering optimizations (Metal ANGLE, GPU rasterization, hardware WebRTC codecs) at startup; defaults to true, set false to opt out without disabling the GPU entirely. linuxPerformanceMode: the Linux counterpart (GPU rasterization, zero-copy, VA-API video), on by default. reduceMotion: ask Teams to skip UI animations. preventDeviceSwitching: prevent automatic audio/video device switching by blocking device change notifications. documentPictureInPicture: replace Electron's non-functional Document Picture-in-Picture API so Teams can show its floating call controls (Call Monitor) in a small always-on-top window; defaults to true, set false to fall back to Electron's native (broken) API.",
+          "Media settings for microphone, camera, and video. showStatusOnDockIcon: overlay the user presence status on the app icon (the Dock on macOS, the tray icon elsewhere). macPerformanceMode: on macOS, force-enable native hardware/rendering optimizations (Metal ANGLE, GPU rasterization, hardware WebRTC codecs) at startup; defaults to true, set false to opt out without disabling the GPU entirely. linuxPerformanceMode: the Linux counterpart (GPU rasterization, zero-copy, VA-API video), on by default. reduceMotion: ask Teams to skip UI animations, on by default. preventDeviceSwitching: prevent automatic audio/video device switching by blocking device change notifications. documentPictureInPicture: replace Electron's non-functional Document Picture-in-Picture API so Teams can show its floating call controls (Call Monitor) in a small always-on-top window; defaults to true, set false to fall back to Electron's native (broken) API.",
         type: "object",
         fields: {
           "microphone.disableAutogain": {
@@ -874,7 +874,7 @@ module.exports = {
           "reduceMotion": {
             type: "boolean",
             describe:
-              "Ask Teams to skip UI animations (prefers-reduced-motion), which makes navigation feel snappier.",
+              "Ask Teams to skip UI animations (prefers-reduced-motion), which makes navigation feel snappier. On by default; set false to get the animations back.",
           },
           // preventDeviceSwitching and documentPictureInPicture are documented
           // in the option's `describe` above; see the note in the
