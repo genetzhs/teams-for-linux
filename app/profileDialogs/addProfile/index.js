@@ -49,7 +49,7 @@ class AddProfileDialog {
     this.#window = createDialogWindow({
       title: "Add profile",
       width: 460,
-      height: 380,
+      height: 410,
       parent: this.#parentWindow,
       preload: path.join(__dirname, "preload.js"),
     });

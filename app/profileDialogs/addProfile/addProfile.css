@@ -1,98 +1,94 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Add profile dialog. Tokens and base styles come from ../../_shared/ui/theme.css. */
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
-  padding: 20px;
+  padding: 20px 24px 18px;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  animation: ui-rise 240ms var(--ease);
 }
 
 h2 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #444;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
 }
 
 p {
-  font-size: 13px;
-  color: #666;
   margin-bottom: 4px;
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
 label {
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
   margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 label .required {
-  color: #c42b1c;
+  color: var(--danger);
 }
 
 label .hint {
+  color: var(--text-subtle);
   font-weight: 400;
-  color: #888;
 }
 
 input[type="text"] {
   width: 100%;
-  padding: 8px 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  transition: border-color 0.2s;
-  background-color: #fff;
-  color: #333;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  transition: border-color 120ms var(--ease), box-shadow 120ms var(--ease);
+}
+
+input[type="text"]:hover {
+  border-color: var(--text-subtle);
 }
 
 input[type="text"]:focus {
-  border-color: #6264a7;
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 input[type="text"].invalid {
-  border-color: #c42b1c;
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px var(--danger-soft);
 }
 
 input[type="color"] {
   width: 100%;
-  height: 32px;
-  padding: 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+  height: 36px;
+  padding: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
   cursor: pointer;
 }
 
 .row {
   display: flex;
-  gap: 8px;
+  gap: 12px;
 }
 
 .row-item {
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .error {
-  font-size: 12px;
-  color: #c42b1c;
-  min-height: 16px;
-  margin-top: 4px;
+  min-height: 18px;
+  color: var(--danger);
+  font-size: 12.5px;
 }
 
 .buttons {
@@ -103,77 +99,36 @@ input[type="color"] {
 }
 
 button {
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 4px;
+  min-width: 92px;
+  height: 34px;
+  padding: 0 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-weight: 600;
   cursor: pointer;
-  border: none;
-  transition: background-color 0.2s;
+  transition: background 120ms var(--ease), transform 80ms var(--ease);
+}
+
+button:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 button.primary {
-  background-color: #6264a7;
-  color: white;
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--accent-text);
 }
 
 button.primary:hover:not(:disabled) {
-  background-color: #525299;
+  background: var(--accent-hover);
 }
 
-button.primary:disabled {
-  background-color: #a0a0a0;
+button:disabled {
+  opacity: 0.45;
   cursor: not-allowed;
-}
-
-button.secondary {
-  background-color: #e0e0e0;
-  color: #333;
-}
-
-button.secondary:hover {
-  background-color: #d0d0d0;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #1f1f1f;
-    color: #e0e0e0;
-  }
-
-  h2 {
-    color: #e0e0e0;
-  }
-
-  p,
-  label {
-    color: #b0b0b0;
-  }
-
-  label .hint {
-    color: #888;
-  }
-
-  input[type="text"] {
-    background-color: #2d2d2d;
-    border-color: #444;
-    color: #e0e0e0;
-  }
-
-  input[type="text"]:focus {
-    border-color: #6264a7;
-  }
-
-  input[type="color"] {
-    background-color: #2d2d2d;
-    border-color: #444;
-  }
-
-  button.secondary {
-    background-color: #3d3d3d;
-    color: #e0e0e0;
-  }
-
-  button.secondary:hover {
-    background-color: #4d4d4d;
-  }
 }

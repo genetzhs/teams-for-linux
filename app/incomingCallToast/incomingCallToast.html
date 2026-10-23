@@ -10,114 +10,212 @@
         globalThis.incomingCallApi.onIncomingCallToastInit((data) => {
             document.getElementById('caller').innerText = data.caller || '';
             document.getElementById('text').innerText = data.text || '';
-            document.getElementById('image').src = data.image || 'data:image/png;base64,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';
+            document.getElementById('image').src = data.image || 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 fill=%27%23e8e9fa%27/%3E%3Ccircle cx=%2732%27 cy=%2725%27 r=%2711%27 fill=%27%235b5fc7%27/%3E%3Cpath d=%27M12 56c2-11 10-17 20-17s18 6 20 17%27 fill=%27%235b5fc7%27/%3E%3C/svg%3E';
         });
     </script>
 
-    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../_shared/ui/theme.css">
     <style>
-        * {
-            box-sizing: border-box;
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #1B1D24;
-            margin: 0;
-            padding: 10px 10px 15px 10px;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            color: white;
+            padding: 14px 16px 16px;
+            border: 1px solid var(--border);
+            background:
+                radial-gradient(120% 70% at 50% 0%, var(--accent-soft) 0%, transparent 70%),
+                var(--surface);
+            user-select: none;
+            animation: ui-slide-in 260ms var(--ease);
         }
 
         header {
             display: flex;
-            font-size: 13px;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
         }
 
-        header>span {
-            margin-left: 10px;
+        header img {
+            border-radius: 4px;
+        }
+
+        header .live {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+        }
+
+        header .live::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: blink 1.2s ease-in-out infinite;
         }
 
         main {
-            flex-grow: 1;
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        main>div {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
             justify-content: center;
+            gap: 2px;
+            min-height: 0;
         }
 
-        main img {
-            width: 100px;
-            height: 100px;
-            border-radius: 100%;
+        .avatar {
+            position: relative;
+            margin-bottom: 8px;
         }
 
-        main p {
+        .avatar img {
+            display: block;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 0 3px var(--surface);
+        }
+
+        /* Two expanding rings: the "ringing" cue. */
+        .avatar::before,
+        .avatar::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            animation: ring 1.8s var(--ease) infinite;
+        }
+
+        .avatar::after {
+            animation-delay: 0.9s;
+        }
+
+        #caller {
+            max-width: 100%;
+            overflow: hidden;
+            font-size: 15px;
+            font-weight: 650;
             text-align: center;
-            font-size: 14px;
-            margin: 0 0 5px 0;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #text {
+            max-width: 100%;
+            overflow: hidden;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         footer {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 22px;
         }
 
         footer button {
-            transition: background-color 0.3s;
-            margin: 0;
+            display: grid;
+            place-items: center;
+            width: 46px;
+            height: 46px;
             padding: 0;
-            font-size: 16px;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            background-color: #4f52b2;
-            min-width: 100px;
-            min-height: 30px;
+            border: 0;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 100ms var(--ease), filter 120ms var(--ease);
         }
 
         footer button:hover {
-            background-color: #2f316c;
+            filter: brightness(1.08);
+            transform: translateY(-1px);
         }
 
-        footer button.decline {
-            background-color: #d13438;
+        footer button:active {
+            transform: scale(0.94);
         }
 
-        footer button.decline:hover {
-            background-color: #821d20;
+        footer .accept-video {
+            background: var(--accent);
+            color: var(--accent-text);
         }
 
-        footer button.decline>i::before {
+        footer .accept-audio {
+            background: var(--success);
+        }
+
+        footer .decline {
+            background: var(--danger);
+        }
+
+        footer .decline svg {
             transform: rotate(135deg);
+        }
+
+        footer svg {
+            width: 21px;
+            height: 21px;
+            fill: currentColor;
+        }
+
+        @keyframes ring {
+            from {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(1.55);
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.3;
+            }
         }
     </style>
 </head>
 
 <body>
     <header>
-        <img src="../assets/icons/icon-monochrome-light-16x16.png" alt="logo" /><span>Teams for Linux</span>
+        <img src="../assets/icons/icon-16x16.png" alt="" width="16" height="16" /><span>Teams for Linux</span>
+        <span class="live">Incoming call</span>
     </header>
     <main>
-        <div>
+        <div class="avatar">
             <img id="image" src="" alt="">
         </div>
         <p id="caller"></p>
         <p id="text"></p>
     </main>
     <footer>
-        <button class="button accept-video"><i class="bi bi-camera-video-fill"></i></button>
-        <button class="button accept-audio"><i class="bi bi-telephone-fill"></i></button>
-        <button class="button decline"><i class="bi bi-telephone-fill"></i></button>
+        <button class="button accept-video" title="Answer with video" aria-label="Answer with video">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6h9A2.5 2.5 0 0 1 16 8.5v7a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 2 15.5v-7A2.5 2.5 0 0 1 4.5 6Zm12.5 4.2 3.9-2.6A.7.7 0 0 1 22 8.2v7.6a.7.7 0 0 1-1.1.6L17 13.8Z"/></svg>
+        </button>
+        <button class="button accept-audio" title="Answer with audio" aria-label="Answer with audio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 8.9 2.3a1.5 1.5 0 0 1 1.7.9l1.2 3a1.5 1.5 0 0 1-.4 1.7L9.7 9.3a11 11 0 0 0 5 5l1.4-1.7a1.5 1.5 0 0 1 1.7-.4l3 1.2a1.5 1.5 0 0 1 .9 1.7l-.5 2.3A2.5 2.5 0 0 1 18.8 21C10.6 20.7 3.3 13.4 3 5.2a2.5 2.5 0 0 1 3.6-2.4Z"/></svg>
+        </button>
+        <button class="button decline" title="Decline" aria-label="Decline">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 8.9 2.3a1.5 1.5 0 0 1 1.7.9l1.2 3a1.5 1.5 0 0 1-.4 1.7L9.7 9.3a11 11 0 0 0 5 5l1.4-1.7a1.5 1.5 0 0 1 1.7-.4l3 1.2a1.5 1.5 0 0 1 .9 1.7l-.5 2.3A2.5 2.5 0 0 1 18.8 21C10.6 20.7 3.3 13.4 3 5.2a2.5 2.5 0 0 1 3.6-2.4Z"/></svg>
+        </button>
     </footer>
     <script>
         document.body.addEventListener('click', (event) => {

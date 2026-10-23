@@ -52,7 +52,7 @@ class JoinMeetingDialog {
     this.#window = createDialogWindow({
       title: 'Join Meeting',
       width: 500,
-      height: 250,
+      height: 232,
       parent: this.#parentWindow,
       preload: path.join(__dirname, 'preload.js'),
     });
