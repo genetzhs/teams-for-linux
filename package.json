@@ -28,7 +28,7 @@
     "cross-distro:list": "cd tests/cross-distro && ./run.sh --list",
     "cross-distro:smoke": "cd tests/cross-distro && ./scripts/smoke-check.sh",
     "prestart": "npm ci",
-    "start": "electron ./app --trace-warnings",
+    "start": "electron ./app --trace-warnings --ozone-platform=x11",
     "start:dev": "electron ./app --trace-warnings --no-sandbox",
     "generate-release-info": "node scripts/generateReleaseInfo.js",
     "generate-ipc-docs": "node scripts/generateIpcDocs.js",
