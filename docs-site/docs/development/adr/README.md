@@ -54,6 +54,7 @@ Architecture Decision Records capture important architectural decisions along wi
 | [030](030-graph-api-teams-session-token.md) | Graph API Access via the Teams Session Token | ✅ Implemented | 2025-11-21 | v2.6.17 |
 | [031](031-ozone-platform-x11-default.md) | Keep the `--ozone-platform=x11` Default on Wayland | ✅ Accepted | 2026-09-05 | N/A |
 | [032](032-secondary-window-for-calls.md) | Opt-in Secondary Window for the Same Account During Calls | 🚧 Proposed | 2026-09-18 | N/A |
+| [033](033-rust-tauri-client.md) | Rust/Tauri Client on the System WebView (Preview) | 🚧 Proposed | 2026-10-23 | N/A |
 
 **Legend:**
 - ✅ **Implemented** - Decision accepted and code in production
@@ -199,6 +200,7 @@ Architecture Decision Records capture important architectural decisions along wi
 |-----|-------|---------|
 | [010](010-multiple-windows-support.md) | Multiple Windows Support | Rejected multi-window in 2025; superseded by 032 after the web app was shown to allow concurrent instances |
 | [032](032-secondary-window-for-calls.md) | Opt-in Secondary Window for the Same Account During Calls | Opt-in second `BrowserWindow` on the same partition so a call can live in one window while the other stays a full client; meeting links and a calendar-based join route to it, no DOM hooks, the call itself is never moved |
+| [033](033-rust-tauri-client.md) | Rust/Tauri Client on the System WebView (Preview) | Thin Rust shell on WebKitGTK with Teams and Outlook in one window, lazily loaded Mail, minimal remote IPC and redesigned app screens; lives beside the Electron app |
 | [014](014-quick-chat-deep-link-approach.md) | Quick Chat Deep Link Approach | Use People API + Deep Links for quick chat access after Chat API was blocked |
 | [015](015-quick-chat-inline-messaging.md) | Quick Chat Inline Messaging | Hybrid Teams commanding + Graph API approach for inline message sending |
 | [020](020-multi-account-profile-switcher.md) | Multi-Account Profile Switcher | WebContentsView-based profile switching with feature-flag gating |
