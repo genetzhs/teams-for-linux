@@ -43,7 +43,7 @@ function buildPinWindow({ strategyLabel, strategyName, modal, parent, alwaysOnTo
   return new Promise((resolve, reject) => {
     const win = new BrowserWindow({
       width: 380,
-      height: 220,
+      height: 232,
       modal,
       frame: true,
       parent,

@@ -38,7 +38,7 @@ function showTouchPrompt(onCancel) {
 
   const win = new BrowserWindow({
     width: 380,
-    height: 190,
+    height: 196,
     frame: true,
     show: false,
     resizable: false,

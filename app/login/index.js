@@ -29,8 +29,8 @@ exports.loginService = function loginService(parentWindow, callback) {
   ensureIpcHandlers();
 
   let win = new BrowserWindow({
-    width: 363,
-    height: 124,
+    width: 380,
+    height: 236,
     modal: true,
     frame: false,
     parent: parentWindow,
