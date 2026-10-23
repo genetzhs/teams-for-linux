@@ -19,7 +19,7 @@
   },
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "node scripts/postinstall.js",
     "lint": "eslint .",
     "test:unit": "node --test 'tests/unit/*.test.js'",
     "test:e2e": "playwright test",
