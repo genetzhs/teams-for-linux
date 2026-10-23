@@ -270,3 +270,39 @@ describe('CommandLineManager Wayland GPU default', () => {
     assert.ok(hasSwitch(switches, 'disable-gpu'));
   });
 });
+
+describe('CommandLineManager Linux performance', () => {
+  afterEach(() => {
+    if (originalElectron) require.cache[electronPath] = originalElectron;
+    else delete require.cache[electronPath];
+    Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
+    Object.defineProperty(process, 'arch', { value: originalArch, configurable: true });
+    delete require.cache[commandLinePath];
+  });
+
+  it('enables GPU rasterization and VA-API by default on Linux', () => {
+    const switches = appendedSwitches({}, 'linux', 'x64');
+    assert.ok(hasSwitch(switches, 'enable-gpu-rasterization'));
+    assert.ok(hasSwitch(switches, 'enable-zero-copy'));
+    assert.ok(hasSwitch(switches, 'ignore-gpu-blocklist'));
+    assert.match(switchValue(switches, 'enable-features'), /VaapiVideoDecoder/);
+  });
+
+  it('can be turned off, and stays off with the GPU disabled', () => {
+    for (const config of [{ media: { linuxPerformanceMode: false } }, { disableGpu: true }]) {
+      const switches = appendedSwitches(config, 'linux', 'x64');
+      assert.ok(!hasSwitch(switches, 'enable-gpu-rasterization'), JSON.stringify(config));
+      assert.ok(!hasSwitch(switches, 'ignore-gpu-blocklist'), JSON.stringify(config));
+    }
+  });
+
+  it('is Linux only', () => {
+    const switches = appendedSwitches({ media: { macPerformanceMode: false } }, 'darwin', 'arm64');
+    assert.ok(!hasSwitch(switches, 'ignore-gpu-blocklist'));
+  });
+
+  it('forces reduced motion only when asked', () => {
+    assert.ok(!hasSwitch(appendedSwitches({}, 'linux', 'x64'), 'force-prefers-reduced-motion'));
+    assert.ok(hasSwitch(appendedSwitches({ media: { reduceMotion: true } }, 'linux', 'x64'), 'force-prefers-reduced-motion'));
+  });
+});

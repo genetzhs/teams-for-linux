@@ -50,6 +50,17 @@ class CommandLineManager {
       this.#configureWayland(config);
     }
 
+    // After Wayland, which may turn the GPU off and seeds enable-features.
+    if (process.platform === "linux") {
+      this.#configureLinuxPerformance(config);
+    }
+
+    // Teams' Fluent UI honours prefers-reduced-motion, so forcing it skips
+    // panel and list transitions and makes navigation feel snappier.
+    if (config.media?.reduceMotion) {
+      app.commandLine.appendSwitch("force-prefers-reduced-motion");
+    }
+
     // Issue #2518: starting a second SharePoint download while a first is in
     // flight kills the first stream with `ERR_QUIC_PROTOCOL_ERROR` (-356) on
     // the shared QUIC session. The freeze is reproducible end-to-end via a
@@ -164,6 +175,37 @@ class CommandLineManager {
 
     if (app.commandLine.hasSwitch("enable-features")) {
       const existing = app.commandLine.getSwitchValue("enable-features").split(",");
+      const merged = Array.from(new Set([...existing, ...performanceFeatures])).join(",");
+      app.commandLine.appendSwitch("enable-features", merged);
+    } else {
+      app.commandLine.appendSwitch("enable-features", performanceFeatures.join(","));
+    }
+  }
+
+  // Linux GPU tuning (media.linuxPerformanceMode, on by default; the Linux
+  // counterpart of media.macPerformanceMode): GPU
+  // rasterization and zero-copy uploads take painting off the CPU, and VA-API
+  // hands call video decode/encode to the GPU where the driver supports it
+  // (otherwise Chromium falls back to software). The blocklist override lets
+  // drivers Chromium is cautious about use the GPU path; turn the option off
+  // if that shows flicker or black areas.
+  static #configureLinuxPerformance(config) {
+    if (config.media?.linuxPerformanceMode === false || config.disableGpu) {
+      return;
+    }
+    console.info("[Linux] Enabling GPU rasterization and hardware video");
+
+    app.commandLine.appendSwitch("enable-gpu-rasterization");
+    app.commandLine.appendSwitch("enable-zero-copy");
+    app.commandLine.appendSwitch("ignore-gpu-blocklist");
+
+    const performanceFeatures = [
+      "VaapiVideoDecoder",
+      "VaapiVideoEncoder",
+      "VaapiVideoDecodeLinuxGL",
+    ];
+    if (app.commandLine.hasSwitch("enable-features")) {
+      const existing = app.commandLine.getSwitchValue("enable-features").split(",").filter(Boolean);
       const merged = Array.from(new Set([...existing, ...performanceFeatures])).join(",");
       app.commandLine.appendSwitch("enable-features", merged);
     } else {

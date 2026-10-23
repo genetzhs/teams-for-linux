@@ -896,6 +896,8 @@ Outlook on the web inside the main window. Switch with the button in the bottom-
 | `disableGpu` | `boolean` | `false` | Deprecated, use `performance.disableGpu` |
 | `performance.electronCLIFlags` | `array` | `[]` | Electron CLI flags |
 | `electronCLIFlags` | `array` | `[]` | Deprecated, use `performance.electronCLIFlags` |
+| `media.linuxPerformanceMode` | `boolean` | `true` | Linux: GPU rasterization, zero-copy uploads and VA-API hardware video for calls, also on drivers Chromium blocklists. Skipped when the GPU is disabled; turn off if you see flicker or black areas |
+| `media.reduceMotion` | `boolean` | `false` | Ask Teams to skip UI animations (`prefers-reduced-motion`), which makes navigation feel snappier |
 
 ### Wayland
 
